@@ -44,7 +44,9 @@ ZEND_DECLARE_MODULE_GLOBALS(memcache)
 MMC_POOL_INLINE void mmc_buffer_alloc(mmc_buffer_t *buffer, unsigned int size)  /*
 	ensures space for an additional size bytes {{{ */
 {
+#if PHP_VERSION_ID < 70200
 	register size_t newlen;
+#endif
 	smart_string_alloc((&(buffer->value)), size, 0);
 }
 /* }}} */
@@ -432,7 +434,6 @@ int mmc_unpack_value(
 {
 	char *data = NULL;
 	unsigned long data_len;
-	int rv;
 
 	zval object;
 
